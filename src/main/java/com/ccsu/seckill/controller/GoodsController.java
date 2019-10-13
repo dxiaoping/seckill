@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.thymeleaf.spring4.view.ThymeleafViewResolver;
 
 import java.util.List;
 
@@ -23,21 +24,26 @@ public class GoodsController {
     @Autowired
     GoodsService goodsService;
 
+
+    @Autowired
+    ThymeleafViewResolver thymeleafViewResolver;
+
     /**
      * 压测结果 3000线程 110 QPS
+     *
      * @param model
      * @return
      */
     @RequestMapping("/to_list")
-    public String list(Model model){
+    public String list(Model model) {
         List<GoodsVo> goodsList = goodsService.goodsVoList();
-        model.addAttribute("goodsList",goodsList);
+        model.addAttribute("goodsList", goodsList);
         return "goods_list";
     }
 
     @RequestMapping("/to_detail/{goodsId}")
     public String detail(Model model, SeckillUser user,
-                         @PathVariable("goodsId") long goodsId){
+                         @PathVariable("goodsId") long goodsId) {
         GoodsVo goods = goodsService.getGoodsDetail(goodsId);
         long startTime = goods.getStartDate().getTime();
         long endTime = goods.getEndDate().getTime();
@@ -49,18 +55,18 @@ public class GoodsController {
          */
         int seckillState = 0;
         int remainSeconds = 0;
-        if (now < startTime){
-            remainSeconds = (int)(startTime - now)/1000;
-        }else if (now > startTime && now < endTime){
+        if (now < startTime) {
+            remainSeconds = (int) (startTime - now) / 1000;
+        } else if (now > startTime && now < endTime) {
             seckillState = 1;
-        }else if (now > endTime){
+        } else if (now > endTime) {
             seckillState = 2;
             remainSeconds = -1;
         }
-        model.addAttribute("remainSeconds",remainSeconds);
-        model.addAttribute("seckillState",seckillState);
-        model.addAttribute("goods",goods);
-        model.addAttribute("user",user);
+        model.addAttribute("remainSeconds", remainSeconds);
+        model.addAttribute("seckillState", seckillState);
+        model.addAttribute("goods", goods);
+        model.addAttribute("user", user);
         return "goods_detail";
     }
 }
