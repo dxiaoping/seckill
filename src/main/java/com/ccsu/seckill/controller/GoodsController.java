@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.thymeleaf.spring4.view.ThymeleafViewResolver;
 
 import java.util.List;
@@ -33,10 +34,14 @@ public class GoodsController {
      * @param model
      * @return
      */
-    @RequestMapping("/to_list")
+    @RequestMapping(value = "/to_list",produces = "text/html")
+    @ResponseBody
     public String list(Model model) {
+
         List<GoodsVo> goodsList = goodsService.goodsVoList();
         model.addAttribute("goodsList", goodsList);
+
+
         return "goods_list";
     }
 
