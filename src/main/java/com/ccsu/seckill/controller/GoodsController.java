@@ -40,8 +40,6 @@ public class GoodsController {
 
         List<GoodsVo> goodsList = goodsService.goodsVoList();
         model.addAttribute("goodsList", goodsList);
-
-
         return "goods_list";
     }
 
