@@ -25,7 +25,7 @@ public class GoodsController {
     GoodsService goodsService;
 
     @Autowired
-    ThymeleafViewResolver ViewResolver;
+    ThymeleafViewResolver thymeleafViewResolver;
 
     /**
      * 压测结果 3000线程 110 QPS
